@@ -11,3 +11,10 @@ export const readUn19nConfig = (): Promise<Un19nConfig> => {
 export const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
   setTimeout(() => resolve(), ms)
 })
+
+export const writeUn19nJSON = async (conf: Un19nConfig, message: Record<string, Record<string, string>>) => {
+  const path = join(process.cwd(), 'locales')
+  await fse.ensureDir(path)
+  const file = join(path, '_un19n.json')
+  await fse.writeJson(file, message)
+}

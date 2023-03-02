@@ -23,6 +23,7 @@
     "fs-extra": "^11.1.0",
     "magic-string": "^0.30.0",
     "md5": "^2.3.0",
+    "nanoid": "^4.0.1",
     "ofetch": "^1.0.1",
     "pathe": "^1.1.0",
     "unplugin": "^1.1.0"

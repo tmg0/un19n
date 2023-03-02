@@ -1,4 +1,5 @@
 import md5 from 'md5'
+import { nanoid } from 'nanoid'
 import { ofetch } from 'ofetch'
 import { BaseURL } from 'src/enums'
 import { sleep } from 'src/shared/common'
@@ -23,18 +24,17 @@ export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => a
   if (!secret) { return '' }
 
   const baseURL = BaseURL.BAIDU
-  const salt = new Date().getTime()
+  const salt = nanoid()
 
   const sign = generateBaiduSign(appid, q, salt, secret)
 
   const query = { q, from, to, salt, appid, sign }
+
   const data = await ofetch<BaiduTransResult>(BAIDU_TRANSLATE, { baseURL, query })
 
-  if (!data.trans_result.length) { return '' }
+  if (!data?.trans_result?.length) { throw data }
 
   const [{ dst }] = data.trans_result
-
-  await sleep(500)
 
   return dst
 }

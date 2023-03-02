@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { baiduTranslator, readUn19nConfig } from '../index'
+import { readUn19nConfig } from '../src/shared/common'
+import { translate } from '../src/core'
 
 describe('baidu translator', () => {
   it('should translate message by baidu open api', async () => {
     const conf = await readUn19nConfig()
-    expect(await baiduTranslator(conf)('apple', 'en', 'zh')).toBe('苹果')
+    expect(await translate(conf)('apple', conf.from, conf.to)).toBe('苹果')
   })
 })
