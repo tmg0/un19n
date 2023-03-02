@@ -13,6 +13,6 @@ interface Un19nConfig {
   platform: Platform
   from: Language
   to: Language
-  appID?: string
+  appid?: string
   secret?: string
 }
