@@ -1,10 +1,14 @@
 import md5 from 'md5'
 import { nanoid } from 'nanoid'
 import { ofetch } from 'ofetch'
-import { BaseURL } from 'src/enums'
-import { sleep } from 'src/shared/common'
+import { BaseURL } from '../../enums'
 
 export const BAIDU_TRANSLATE = '/api/trans/vip/translate'
+
+export interface BaiduTransError {
+  error_msg: string
+  data: Record<string, string>
+}
 
 export interface BaiduTransResult {
   from: Language
@@ -14,6 +18,8 @@ export interface BaiduTransResult {
     dst: string
   }[]
 }
+
+export const isError = (response: any): response is BaiduTransError => !!response.error_msg
 
 export const generateBaiduSign = (appid: string, q: string, salt: string | number, secret: string) => {
   return md5(`${appid}${q}${salt}${secret}`)
@@ -30,11 +36,11 @@ export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => a
 
   const query = { q, from, to, salt, appid, sign }
 
-  const data = await ofetch<BaiduTransResult>(BAIDU_TRANSLATE, { baseURL, query })
+  const response = await ofetch<BaiduTransResult | BaiduTransError>(BAIDU_TRANSLATE, { baseURL, query })
 
-  if (!data?.trans_result?.length) { throw data }
+  if (isError(response)) { throw response }
 
-  const [{ dst }] = data.trans_result
+  const [{ dst }] = response.trans_result
 
   return dst
 }

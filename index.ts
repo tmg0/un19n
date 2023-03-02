@@ -1,7 +1,7 @@
 
 import { createUnplugin } from 'unplugin'
 import { translate } from './src/core'
-import { readUn19nConfig, sleep, writeUn19nJSON } from './src/shared/common'
+import { readUn19nConfig, readUn19nJSON, sleep, writeUn19nJSON } from './src/shared/common'
 
 export const re = /(?:\$)?t\(["']((?:zh|en):.+?)["']\)/g
 
@@ -23,7 +23,7 @@ export const un19n = createUnplugin((options: Un19nOptions) => {
       const matches = code.matchAll(re)
       if (!matches) { return { code } }
 
-      const messages: Record<string, Record<string, string>> = {}
+      const messages = await readUn19nJSON()
 
       const conf = await readUn19nConfig()
 
@@ -35,16 +35,17 @@ export const un19n = createUnplugin((options: Un19nOptions) => {
 
         const [language, message] = tag.split(':')
 
-        if (language && language === conf.to) { continue }
+        if (!messages[language]) { messages[language] = {} }
+        messages[language][message] = message
 
-        const t = await translate(conf)(message, language, conf.to)
+        if (language && language === conf.to) { continue }
+        if (messages[conf.to][message]) { continue }
+
+        const t = await translate(conf)(message, language as Language, conf.to)
 
         if (!messages[conf.to]) { messages[conf.to] = {} }
 
         messages[conf.to][message] = t
-
-        console.log(messages[conf.to][message])
-        console.log(`tanslation: ${t}`)
 
         await sleep(1000)
       }

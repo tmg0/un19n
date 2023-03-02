@@ -12,6 +12,15 @@ export const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
   setTimeout(() => resolve(), ms)
 })
 
+export const readUn19nJSON = (): Promise<Record<string, Record<string, string>>> | Record<string, Record<string, string>> => {
+  try {
+    const path = join(process.cwd(), 'locales', '_un19n.json')
+    return fse.readJson(path)
+  } catch {
+    return {}
+  }
+}
+
 export const writeUn19nJSON = async (conf: Un19nConfig, message: Record<string, Record<string, string>>) => {
   const path = join(process.cwd(), 'locales')
   await fse.ensureDir(path)
