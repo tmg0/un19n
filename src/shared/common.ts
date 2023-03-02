@@ -20,9 +20,9 @@ export const readUn19nJSON = async (): Promise<any> => {
   try {
     consola.info('Reading exist locale file')
     const path = join(process.cwd(), 'src/locales', '_un19n.json')
-    const messages = await fse.readJson(path)
+    const { un19n } = await fse.readJson(path)
     consola.success('Locale messages read complete')
-    return messages
+    return un19n
   } catch {
     consola.warn('Do not exist locale messages')
     return {}
@@ -34,6 +34,6 @@ export const writeUn19nJSON = async (conf: Un19nConfig, message: Record<string, 
   await fse.ensureDir(path)
   const file = join(path, '_un19n.json')
   consola.success('Writing locale messages')
-  await fse.writeJson(file, message)
+  await fse.writeJson(file, { un19n: message })
   consola.success('Locale messages write complete')
 }

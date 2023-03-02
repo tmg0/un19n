@@ -29,6 +29,7 @@ export const un19n = createUnplugin((options: Un19nOptions) => {
 
       for (const match of matches) {
         const [_, tag] = match
+        consola.info('Matched: ' + tag)
 
         if (!tag) { break }
         if (!tag.includes(':')) { break }
@@ -38,8 +39,15 @@ export const un19n = createUnplugin((options: Un19nOptions) => {
         if (!messages[language]) { messages[language] = {} }
         messages[language][message] = message
 
-        if (language && language === conf.to) { continue }
-        if (messages[conf.to]?.[message]) { continue }
+        if (language && language === conf.to) {
+          consola.info(`Skipped ${language}: ${message}`)
+          continue
+        }
+
+        if (messages[conf.to]?.[message]) {
+          consola.info(`Skipped exist ${conf.to}: ${messages[conf.to]?.[message]}`)
+          continue
+        }
 
         const t = await translate(conf)(message, language, conf.to)
 
@@ -50,9 +58,7 @@ export const un19n = createUnplugin((options: Un19nOptions) => {
         await sleep(1000)
       }
 
-      if (Object.keys(messages).length) {
-        writeUn19nJSON(conf, messages)
-      }
+      writeUn19nJSON(conf, messages)
 
       return { code }
     }
