@@ -1,5 +1,6 @@
 
 import { createUnplugin } from 'unplugin'
+import consola from 'consola'
 import { translate } from './src/core'
 import { readUn19nConfig, readUn19nJSON, sleep, writeUn19nJSON } from './src/shared/common'
 
@@ -23,9 +24,8 @@ export const un19n = createUnplugin((options: Un19nOptions) => {
       const matches = code.matchAll(re)
       if (!matches) { return { code } }
 
-      const messages = await readUn19nJSON()
-
-      const conf = await readUn19nConfig()
+      consola.info('Transforming: ' + id)
+      const [conf, messages] = await Promise.all([readUn19nConfig(), readUn19nJSON()])
 
       for (const match of matches) {
         const [_, tag] = match
@@ -33,15 +33,15 @@ export const un19n = createUnplugin((options: Un19nOptions) => {
         if (!tag) { break }
         if (!tag.includes(':')) { break }
 
-        const [language, message] = tag.split(':')
+        const [language, message] = tag.split(':') as [Language, string]
 
         if (!messages[language]) { messages[language] = {} }
         messages[language][message] = message
 
         if (language && language === conf.to) { continue }
-        if (messages[conf.to][message]) { continue }
+        if (messages[conf.to]?.[message]) { continue }
 
-        const t = await translate(conf)(message, language as Language, conf.to)
+        const t = await translate(conf)(message, language, conf.to)
 
         if (!messages[conf.to]) { messages[conf.to] = {} }
 
