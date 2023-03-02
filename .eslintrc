@@ -1,6 +1,7 @@
 {
   "extends": "@nuxtjs/eslint-config-typescript",
   "rules": {
+    "camelcase": "off",
     "no-use-before-define": "off",
     "import/no-named-as-default-member": "off",
     "@typescript-eslint/comma-dangle": ["error", "never"]

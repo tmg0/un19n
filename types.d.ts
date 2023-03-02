@@ -7,10 +7,12 @@ enum Platform {
   BAIDU = 'baidu'
 }
 
-type Translator = (message: string, from: Language, to: Language) => string
+type Translator = (message: string, from: Language, to: Language) => Promise<string>
 
 interface Un19nConfig {
   platform: Platform
   from: Language
   to: Language
+  appID?: string
+  secret?: string
 }
