@@ -1,0 +1,29 @@
+{
+  "name": "un19n",
+  "version": "0.0.1",
+  "description": "Quick i18n translation generator",
+  "main": "dist/index.mjs",
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest"
+  },
+  "keywords": [
+    "translation",
+    "i18n",
+    "automation"
+  ],
+  "author": "zekun.jin",
+  "dependencies": {
+    "ofetch": "^1.0.1",
+    "unplugin": "^1.1.0"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "eslint": "^8.35.0",
+    "tsup": "^6.6.3",
+    "typescript": "^4.9.5",
+    "vitest": "^0.29.2"
+  }
+}
