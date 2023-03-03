@@ -28,7 +28,7 @@ export const readUn19nJSON = async (conf: Un19nConfig): Promise<any> => {
   try {
     const path = join(process.cwd(), conf.output, conf.filename)
     const json = await fse.readJson(path)
-    return json
+    return json || {}
   } catch {
     return Promise.resolve({})
   }
