@@ -42,9 +42,9 @@ export const normalizeUn19nPath = (path: string) => {
   return path.replace(un19nPathRE, URL_PREFIXES[0])
 }
 
-export const ensureSrcTranslation = (conf: Un19nConfig, messages: any, language: Language, message: string) => {
+export const ensureSrcTranslation = (conf: Un19nConfig, messages: any, language: Language, message: string, key = message) => {
   if (!messages[language]?.[conf.prefix]) { messages[language] = { [conf.prefix]: {} } }
-  messages[language][conf.prefix][message] = message
+  messages[language][conf.prefix][key] = message
 }
 
 export const skipTranslate = (conf: Un19nConfig, messages: any, language: Language, target: Language, message: string): boolean => {

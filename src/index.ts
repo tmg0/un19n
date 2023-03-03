@@ -55,7 +55,9 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
           const t = await translate(conf)(message, language, target)
 
-          ensureSrcTranslation(conf, messages, target, t)
+          if (!messages[target]?.[conf.prefix]) { messages[target] = { [conf.prefix]: {} } }
+
+          messages[target][conf.prefix][message] = t
 
           await sleep(1000)
         }

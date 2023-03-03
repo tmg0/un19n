@@ -1,6 +1,6 @@
 import { join } from 'pathe'
 
-export const resolveUn19nOutputPath = (conf: Un19nConfig) => join(conf.root, conf.output, conf.filename)
+export const resolveUn19nOutputPath = (conf: Un19nConfig) => '/' + join(conf.root, conf.output, conf.filename)
 
 export const resolveUn19nMatch = (match: RegExpMatchArray) => {
   const [_, tag] = match
