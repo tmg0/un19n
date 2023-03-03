@@ -70,12 +70,12 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
       }
 
       for (const { from, to } of languages) {
-        const arr = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l }) => l === from).map(({ message }) => message)
-        const t = await translate(conf)(arr, from, to)
+        const src = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l }) => l === from).map(({ message }) => message)
+        const t = await translate(conf)(src, from, to)
 
         flatten([t]).forEach((item, i) => {
           if (!messages[to]?.[conf.prefix]) { messages[to] = { [conf.prefix]: {} } }
-          messages[to][conf.prefix][arr[i]] = item
+          messages[to][conf.prefix][src[i]] = item
         })
 
         await sleep(1000)
