@@ -1,6 +1,7 @@
 import md5 from 'md5'
 import { nanoid } from 'nanoid'
 import { ofetch } from 'ofetch'
+import consola from 'consola'
 import { BaseURL } from '../../shared/enums'
 import { isArray } from 'src/shared/common'
 
@@ -44,7 +45,11 @@ export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => a
 
   if (isError(response)) { throw response }
 
-  const translations = response.trans_result.map(({ dst }) => dst)
+  const translations = response.trans_result
 
-  return multi ? translations : translations[0]
+  const result = translations.map(({ dst }) => dst)
+
+  translations.forEach(({ src, dst }) => { consola.info(`Translate from ${from}: ${src} to ${to}: ${dst}`) })
+
+  return multi ? result : result[0]
 }

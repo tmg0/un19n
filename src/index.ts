@@ -3,7 +3,7 @@ import { createUnplugin } from 'unplugin'
 import MagicString from 'magic-string'
 import flatten from 'lodash.flatten'
 import { translate } from './core'
-import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag } from './shared/common'
+import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag, existTranslation } from './shared/common'
 import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
 
 export const RE = /(?:\$)?t\(["']((?:zh|en):.+?)["']\)/g
@@ -70,7 +70,10 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
       }
 
       for (const { from, to } of languages) {
-        const src = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l }) => l === from).map(({ message }) => message)
+        const src = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l, message: m }) => l === from && !existTranslation(conf, messages, to, m))?.map(({ message }) => message)
+
+        if (!(src && src.length)) { continue }
+
         const t = await translate(conf)(src, from, to)
 
         flatten([t]).forEach((item, i) => {

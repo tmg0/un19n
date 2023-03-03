@@ -59,8 +59,8 @@ export const skipTranslate = (conf: Un19nConfig, messages: any, language: Langua
   return false
 }
 
-export const existTranslation = () => {
-
+export const existTranslation = (conf: Un19nConfig, messages: any, language: Language, src: string) => {
+  return !!messages?.[language]?.[conf.prefix]?.[src]
 }
 
 export const setUn19nLanguage = (conf: Un19nConfig, messages: any, language: Language, key: string, t: string) => {

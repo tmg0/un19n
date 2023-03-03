@@ -1,7 +1,7 @@
 export const defaultUn19nConfig: Partial<Un19nConfig> = {
   platform: 'baidu',
   from: 'en',
-  to: ['zh'],
+  to: [],
   root: '.',
   output: 'locales',
   filename: '_un19n.json',
