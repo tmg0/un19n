@@ -1,8 +1,8 @@
 
 import { createUnplugin } from 'unplugin'
 import consola from 'consola'
-import { translate } from './src/core'
-import { readUn19nConfig, readUn19nJSON, sleep, writeUn19nJSON } from './src/shared/common'
+import { translate } from './core'
+import { readUn19nConfig, readUn19nJSON, sleep, writeUn19nJSON } from './shared/common'
 
 export const re = /(?:\$)?t\(["']((?:zh|en):.+?)["']\)/g
 

@@ -1,7 +1,7 @@
 import md5 from 'md5'
 import { nanoid } from 'nanoid'
 import { ofetch } from 'ofetch'
-import { BaseURL } from '../../enums'
+import { BaseURL } from '../../shared/enums'
 
 export const BAIDU_TRANSLATE = '/api/trans/vip/translate'
 
