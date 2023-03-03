@@ -18,6 +18,6 @@
     "skipDefaultLibCheck": true,
     "noUnusedLocals": true
   },
-  "include": ["src/**/*", "types.d.ts"],
+  "include": ["src/**/*", "index.ts", "types.d.ts"],
   "exclude": ["node_modules", "**/dist"]
 }
