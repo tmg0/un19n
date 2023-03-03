@@ -2,6 +2,7 @@ import md5 from 'md5'
 import { nanoid } from 'nanoid'
 import { ofetch } from 'ofetch'
 import { BaseURL } from '../../shared/enums'
+import { isArray } from 'src/shared/common'
 
 export const BAIDU_TRANSLATE = '/api/trans/vip/translate'
 
@@ -25,9 +26,12 @@ export const generateBaiduSign = (appid: string, q: string, salt: string | numbe
   return md5(`${appid}${q}${salt}${secret}`)
 }
 
-export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => async (q, from, to) => {
+export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => async (message, from, to) => {
   if (!appid) { return '' }
   if (!secret) { return '' }
+
+  const multi = isArray(message)
+  const q = (multi ? encodeURIComponent(message.join('\n')) : message) as string
 
   const baseURL = BaseURL.BAIDU
   const salt = nanoid()
@@ -40,7 +44,7 @@ export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => a
 
   if (isError(response)) { throw response }
 
-  const [{ dst }] = response.trans_result
+  const translations = response.trans_result.map(({ dst }) => dst)
 
-  return dst
+  return multi ? translations[0] : translations
 }

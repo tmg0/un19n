@@ -1,7 +1,7 @@
 type Platform = 'baidu'
 type Language = 'zh' | 'en'
 
-type Translator = (message: string, from: Language, to: Language) => Promise<string>
+type Translator = (message: string | string[], from: Language, to: Language) => Promise<string | string[]>
 
 interface Un19nConfig {
   platform: Platform

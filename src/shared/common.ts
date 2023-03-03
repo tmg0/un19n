@@ -14,6 +14,8 @@ export const readUn19nConfig = async (): Promise<Un19nConfig> => {
   return merge(defaultUn19nConfig, conf)
 }
 
+export const isArray = (value: any): value is any[] => Array.isArray(value)
+
 export const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
   setTimeout(() => resolve(), ms)
 })
