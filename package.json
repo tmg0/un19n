@@ -1,6 +1,6 @@
 {
   "name": "un19n",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Quick i18n translation generator",
   "main": "dist/index.mjs",
   "scripts": {
@@ -18,9 +18,6 @@
   ],
   "author": "zekun.jin",
   "dependencies": {
-    "@types/fs-extra": "^11.0.1",
-    "@types/lodash.merge": "^4.6.7",
-    "@types/md5": "^2.3.2",
     "consola": "^2.15.3",
     "fs-extra": "^11.1.0",
     "lodash.merge": "^4.6.2",
@@ -31,9 +28,12 @@
     "pathe": "^1.1.0",
     "unplugin": "^1.1.0"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@types/fs-extra": "^11.0.1",
+    "@types/lodash.merge": "^4.6.7",
+    "@types/md5": "^2.3.2",
     "eslint": "^8.35.0",
     "tsup": "^6.6.3",
     "typescript": "^4.9.5",

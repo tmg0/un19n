@@ -20,9 +20,6 @@ specifiers:
   vitest: ^0.29.2
 
 dependencies:
-  '@types/fs-extra': 11.0.1
-  '@types/lodash.merge': 4.6.7
-  '@types/md5': 2.3.2
   consola: 2.15.3
   fs-extra: 11.1.0
   lodash.merge: 4.6.2
@@ -35,6 +32,9 @@ dependencies:
 
 devDependencies:
   '@nuxtjs/eslint-config-typescript': 12.0.0_ycpbpc6yetojsgtrx3mwntkhsu
+  '@types/fs-extra': 11.0.1
+  '@types/lodash.merge': 4.6.7
+  '@types/md5': 2.3.2
   eslint: 8.35.0
   tsup: 6.6.3_typescript@4.9.5
   typescript: 4.9.5
@@ -592,7 +592,7 @@ packages:
     dependencies:
       '@types/jsonfile': 6.1.1
       '@types/node': 18.14.2
-    dev: false
+    dev: true
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
@@ -606,24 +606,25 @@ packages:
     resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
     dependencies:
       '@types/node': 18.14.2
-    dev: false
+    dev: true
 
   /@types/lodash.merge/4.6.7:
     resolution: {integrity: sha512-OwxUJ9E50gw3LnAefSHJPHaBLGEKmQBQ7CZe/xflHkyy/wH2zVyEIAKReHvVrrn7zKdF58p16We9kMfh7v0RRQ==}
     dependencies:
       '@types/lodash': 4.14.191
-    dev: false
+    dev: true
 
   /@types/lodash/4.14.191:
     resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
-    dev: false
+    dev: true
 
   /@types/md5/2.3.2:
     resolution: {integrity: sha512-v+JFDu96+UYJ3/UWzB0mEglIS//MZXgRaJ4ubUPwOM0gvLc/kcQ3TWNYwENEK7/EcXGQVrW8h/XqednSjBd/Og==}
-    dev: false
+    dev: true
 
   /@types/node/18.14.2:
     resolution: {integrity: sha512-1uEQxww3DaghA0RxqHx0O0ppVlo43pJhepY51OxuQIKHpjbnYLA7vcdwioNPzIqmC2u3I/dmylcqjlh0e7AyUA==}
+    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
