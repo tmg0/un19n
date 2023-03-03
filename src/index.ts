@@ -1,11 +1,12 @@
 
 import { createUnplugin } from 'unplugin'
 import MagicString from 'magic-string'
+import flatten from 'lodash.flatten'
 import { translate } from './core'
-import { ensureSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, skipTranslate, sleep, writeUn19nJSON } from './shared/common'
+import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag } from './shared/common'
 import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
 
-export const re = /(?:\$)?t\(["']((?:zh|en):.+?)["']\)/g
+export const RE = /(?:\$)?t\(["']((?:zh|en):.+?)["']\)/g
 
 export interface Un19nOptions {
   includes?: string[]
@@ -34,33 +35,50 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
     transformInclude: id => fileRE.test(id),
 
     async transform (code) {
-      const matches = code.matchAll(re)
+      const matches = code.matchAll(RE)
+
       if (!matches) { return { code } }
 
       const s = new MagicString(code)
+
+      const languages: {
+        from: Language
+        to: Language
+      }[] = []
+
+      const pendings = new Set<string>()
+
       const conf = await readUn19nConfig()
+
       const messages = await readUn19nJSON(conf)
 
       for (const match of matches) {
         if (!match) { break }
 
-        const { start, end, language, message } = resolveUn19nMatch(match)
+        const { start, end, language, message, tag } = resolveUn19nMatch(conf, match)
 
         s.update(start, end, `${conf.prefix}.${message}`)
 
-        ensureSrcTranslation(conf, messages, language, message)
+        setSrcTranslation(conf, messages, language, message)
 
         for (const target of conf.to) {
-          if (skipTranslate(conf, messages, language, target, message)) { continue }
+          if (language === target) { continue }
 
-          const t = await translate(conf)(message, language, target)
-
-          if (!messages[target]?.[conf.prefix]) { messages[target] = { [conf.prefix]: {} } }
-
-          messages[target][conf.prefix][message] = t
-
-          await sleep(1000)
+          languages.push({ from: language, to: target })
+          pendings.add(tag)
         }
+      }
+
+      for (const { from, to } of languages) {
+        const arr = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l }) => l === from).map(({ message }) => message)
+        const t = await translate(conf)(arr, from, to)
+
+        flatten([t]).forEach((item, i) => {
+          if (!messages[to]?.[conf.prefix]) { messages[to] = { [conf.prefix]: {} } }
+          messages[to][conf.prefix][arr[i]] = item
+        })
+
+        await sleep(1000)
       }
 
       writeUn19nJSON(conf, messages)

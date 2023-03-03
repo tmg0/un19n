@@ -11,7 +11,11 @@ export const defineUn19nConfig = (config: Un19nConfig) => config
 export const readUn19nConfig = async (): Promise<Un19nConfig> => {
   const path = join(process.cwd(), 'un19n.config.json')
   const conf = await fse.readJson(path)
-  return merge(defaultUn19nConfig, conf)
+  const res: Un19nConfig = merge(defaultUn19nConfig, conf)
+
+  if (!res.to.includes(res.from)) { res.to = [...res.to, res.from] }
+
+  return res
 }
 
 export const isArray = (value: any): value is any[] => Array.isArray(value)
@@ -44,7 +48,7 @@ export const normalizeUn19nPath = (path: string) => {
   return path.replace(un19nPathRE, URL_PREFIXES[0])
 }
 
-export const ensureSrcTranslation = (conf: Un19nConfig, messages: any, language: Language, message: string, key = message) => {
+export const setSrcTranslation = (conf: Un19nConfig, messages: any, language: Language, message: string, key = message) => {
   if (!messages[language]?.[conf.prefix]) { messages[language] = { [conf.prefix]: {} } }
   messages[language][conf.prefix][key] = message
 }
@@ -57,4 +61,18 @@ export const skipTranslate = (conf: Un19nConfig, messages: any, language: Langua
 
 export const existTranslation = () => {
 
+}
+
+export const setUn19nLanguage = (conf: Un19nConfig, messages: any, language: Language, key: string, t: string) => {
+  if (!messages[language]?.[conf.prefix]) { messages[language] = { [conf.prefix]: {} } }
+  messages[language][conf.prefix][key] = t
+}
+
+export const parseTag = (conf: Un19nConfig, tag: string) => {
+  const [language, message] = tag.split(':') as [Language, string]
+
+  return {
+    language: language || conf.from,
+    message
+  }
 }

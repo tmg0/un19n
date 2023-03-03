@@ -31,7 +31,7 @@ export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => a
   if (!secret) { return '' }
 
   const multi = isArray(message)
-  const q = (multi ? encodeURIComponent(message.join('\n')) : message) as string
+  const q = (multi ? message.join('\n') : message) as string
 
   const baseURL = BaseURL.BAIDU
   const salt = nanoid()
@@ -46,5 +46,5 @@ export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => a
 
   const translations = response.trans_result.map(({ dst }) => dst)
 
-  return multi ? translations[0] : translations
+  return multi ? translations : translations[0]
 }

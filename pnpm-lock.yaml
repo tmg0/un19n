@@ -3,11 +3,13 @@ lockfileVersion: 5.4
 specifiers:
   '@nuxtjs/eslint-config-typescript': ^12.0.0
   '@types/fs-extra': ^11.0.1
+  '@types/lodash.flatten': ^4.4.7
   '@types/lodash.merge': ^4.6.7
   '@types/md5': ^2.3.2
   consola: ^2.15.3
   eslint: ^8.35.0
   fs-extra: ^11.1.0
+  lodash.flatten: ^4.4.0
   lodash.merge: ^4.6.2
   magic-string: ^0.30.0
   md5: ^2.3.0
@@ -22,6 +24,7 @@ specifiers:
 dependencies:
   consola: 2.15.3
   fs-extra: 11.1.0
+  lodash.flatten: 4.4.0
   lodash.merge: 4.6.2
   magic-string: 0.30.0
   md5: 2.3.0
@@ -33,6 +36,7 @@ dependencies:
 devDependencies:
   '@nuxtjs/eslint-config-typescript': 12.0.0_ycpbpc6yetojsgtrx3mwntkhsu
   '@types/fs-extra': 11.0.1
+  '@types/lodash.flatten': 4.4.7
   '@types/lodash.merge': 4.6.7
   '@types/md5': 2.3.2
   eslint: 8.35.0
@@ -606,6 +610,12 @@ packages:
     resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
     dependencies:
       '@types/node': 18.14.2
+    dev: true
+
+  /@types/lodash.flatten/4.4.7:
+    resolution: {integrity: sha512-6yyP/mHEKL2sa86V61F7TnEcUKlLML9+aWI7TCKvnS4SFt7RD4zTVwkdDgluOJqxVkwZ/2z7HvtRs/7j/Uru7g==}
+    dependencies:
+      '@types/lodash': 4.14.191
     dev: true
 
   /@types/lodash.merge/4.6.7:
@@ -2285,6 +2295,10 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
+
+  /lodash.flatten/4.4.0:
+    resolution: {integrity: sha512-C5N2Z3DgnnKr0LOpv/hKCgKdb7ZZwafIrsesve6lmzvZIRZRGaZ/l6Q8+2W7NaT+ZwO3fFlSCzCzrDCFdJfZ4g==}
+    dev: false
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
