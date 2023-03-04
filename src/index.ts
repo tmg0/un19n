@@ -84,7 +84,7 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
         await sleep(1000)
       }
 
-      writeUn19nJSON(conf, messages)
+      await writeUn19nJSON(conf, messages)
 
       return {
         code: s.toString(),
