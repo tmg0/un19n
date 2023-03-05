@@ -1,9 +1,11 @@
-type Platform = 'baidu'
-type Language = 'zh' | 'en'
+import { languages } from "./src/shared/consts"
 
-type Translator = (message: string | string[], from: Language, to: Language) => Promise<string | string[]>
+export type Platform = 'baidu'
+export type Language = typeof languages[number]
 
-interface Un19nConfig {
+export type Translator = (message: string | string[], from: Language, to: Language) => Promise<string | string[]>
+
+export interface Un19nConfig {
   platform: Platform
   from: Language
   to: Language[]
