@@ -16,6 +16,18 @@
     "i18n",
     "automation"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.mjs",
+      "import": "./dist/index.mjs"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
+      "require": "./dist/nuxt.mjs",
+      "import": "./dist/nuxt.mjs"
+    }
+  },
   "author": "zekun.jin",
   "dependencies": {
     "consola": "^2.15.3",
@@ -31,6 +43,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@nuxt/kit": "^3.2.3",
+    "@nuxt/schema": "^3.2.3",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/fs-extra": "^11.0.1",
     "@types/lodash.flatten": "^4.4.7",

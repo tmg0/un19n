@@ -20,7 +20,7 @@ export interface Un19nOptions {
 }
 
 const un19n = createUnplugin((options?: Un19nOptions) => {
-  let includes = ['src']
+  let includes = ['.']
 
   if (options?.includes) { includes = options.includes }
 
