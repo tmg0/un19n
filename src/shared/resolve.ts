@@ -1,7 +1,10 @@
-import { join } from 'pathe'
+import { join, resolve } from 'pathe'
 import { parseTag } from './common'
 
-export const resolveUn19nOutputPath = (conf: Un19nConfig) => '/' + join(conf.root, conf.output, conf.filename)
+export const resolveUn19nOutputPath = (conf: Un19nConfig) => {
+  const path = join(conf.root, conf.output, conf.filename)
+  return resolve(path)
+}
 
 export const resolveUn19nMatch = (conf: Un19nConfig, match: RegExpMatchArray) => {
   const [_, tag] = match
