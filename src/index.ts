@@ -5,17 +5,20 @@ import flatten from 'lodash.flatten'
 import { translate } from './core'
 import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag, existTranslation } from './shared/common'
 import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
+import { languages } from './shared/consts'
 
-export const RE = /(?:\$)?t\(["']((?:zh|en):.+?)["']\)/g
+export const RE = new RegExp(`(?:\\$)?t\\(["']((?:${languages.join('|')})?:.+?)["']\\)`, 'g')
 
 export interface Un19nOptions {
   includes?: string[]
 }
 
 const un19n = createUnplugin((options?: Un19nOptions) => {
-  const [src] = options?.includes || ['src']
+  let includes = ['src']
 
-  const fileRE = new RegExp(`.*${src}.*.(ts|js|tsx|jsx|vue)`, 'g')
+  if (options?.includes) { includes = options.includes }
+
+  const fileRE = new RegExp(`.*${includes[0]}.*.(ts|js|tsx|jsx|vue)`, 'g')
 
   return {
     name: 'un19n',
@@ -70,7 +73,9 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
       }
 
       for (const { from, to } of languages) {
-        const src = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l, message: m }) => l === from && !existTranslation(conf, messages, to, m))?.map(({ message }) => message)
+        const src = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l, message: m }) => {
+          return l === from && !existTranslation(conf, messages, to, m)
+        })?.map(({ message }) => message)
 
         if (!(src && src.length)) { continue }
 
