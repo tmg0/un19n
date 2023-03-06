@@ -43,7 +43,10 @@ export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => a
 
   const response = await ofetch<BaiduTransResult | BaiduTransError>(BAIDU_TRANSLATE, { baseURL, query })
 
-  if (isError(response)) { throw response }
+  if (isError(response)) {
+    consola.error(response)
+    throw response
+  }
 
   const translations = response.trans_result
 

@@ -1,5 +1,3 @@
-import type { Un19nConfig } from 'types'
-
 export const languages = ['zh', 'en', 'de'] as const
 
 export const defaultUn19nConfig: Partial<Un19nConfig> = {

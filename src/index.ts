@@ -5,7 +5,6 @@ import flatten from 'lodash.flatten'
 import { translate } from './core'
 import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag, existTranslation } from './shared/common'
 import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
-import type { Language } from 'types'
 
 export const RE = /(?:\$)?t\(["']((?:zh|en):.+?)["']\)/g
 
