@@ -16,6 +16,7 @@ interface Un19nConfig {
   includes: string[]
   prefix: string
   qps: number
+  splitting: boolean
 }
 
 

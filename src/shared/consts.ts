@@ -8,5 +8,6 @@ export const defaultUn19nConfig: Partial<Un19nConfig> = {
   output: 'locales',
   filename: '_un19n.json',
   prefix: '_un19n',
-  qps: 1
+  qps: 1,
+  splitting: false
 }
