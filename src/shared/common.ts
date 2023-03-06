@@ -51,6 +51,7 @@ export const normalizeUn19nPath = (path: string) => {
 export const setSrcTranslation = (conf: Un19nConfig, messages: any, language: Language, message: string, key = message) => {
   if (!messages[language]?.[conf.prefix]) { messages[language] = { [conf.prefix]: {} } }
   messages[language][conf.prefix][key] = message
+  return messages
 }
 
 export const skipTranslate = (conf: Un19nConfig, messages: any, language: Language, target: Language, message: string): boolean => {
@@ -75,4 +76,20 @@ export const parseTag = (conf: Un19nConfig, tag: string) => {
     language: language || conf.from,
     message
   }
+}
+
+export const setExists = (exists: any, src: string, to: Language) => {
+  if (!exists[src]) { exists[src] = new Set() }
+  exists[src].add(to)
+  return exists
+}
+
+export const isExist = (conf: Un19nConfig, exists: any, src: string) => {
+  if (!exists[src]) { return false }
+
+  const arr = [...exists[src]]
+
+  if (arr.length !== conf.to.length) { return false }
+
+  return conf.to.every(item => arr.includes(item))
 }

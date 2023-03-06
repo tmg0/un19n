@@ -3,12 +3,15 @@ import { createUnplugin } from 'unplugin'
 import MagicString from 'magic-string'
 import flatten from 'lodash.flatten'
 import { translate } from './core'
-import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag, existTranslation } from './shared/common'
+import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag, existTranslation, setExists, isExist } from './shared/common'
 import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
 import { languages } from './shared/consts'
 
 const conf = await readUn19nConfig()
-const messages = await readUn19nJSON(conf)
+
+let messages = await readUn19nJSON(conf)
+
+const exists: Partial<Record<string, Set<Language>>> = {}
 
 export const RE = new RegExp(`(?:\\$)?t\\(["']((?:${languages.join('|')})?:.+?)["']\\)`, 'g')
 
@@ -54,13 +57,17 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
       const pendings = new Set<string>()
 
       for (const match of matches) {
-        if (!match) { break }
+        if (!match) { continue }
 
         const { start, end, language, message, tag } = resolveUn19nMatch(conf, match)
 
         s.update(start, end, `${conf.prefix}.${message}`)
 
-        setSrcTranslation(conf, messages, language, message)
+        if (isExist(conf, exists, message)) { continue }
+
+        setExists(exists, message, language)
+
+        messages = setSrcTranslation(conf, messages, language, message)
 
         for (const target of conf.to) {
           if (language === target) { continue }
@@ -86,6 +93,8 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
         flatten([t]).forEach((item, i) => {
           if (!messages[to]?.[conf.prefix]) { messages[to] = { [conf.prefix]: {} } }
           messages[to][conf.prefix][src[i]] = item
+
+          setExists(exists, src[i], to)
         })
 
         await sleep(1000)
