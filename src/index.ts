@@ -47,6 +47,8 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
       if (!matches) { return { code } }
 
+      let hasTranslate = false
+
       const s = new MagicString(code)
 
       const languages: {
@@ -68,6 +70,7 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
         setExists(exists, message, language)
 
         messages = setSrcTranslation(conf, messages, language, message)
+        hasTranslate = true
 
         for (const target of conf.to) {
           if (language === target) { continue }
@@ -90,6 +93,8 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
         const t = await translate(conf)(src, from, to)
 
+        hasTranslate = true
+
         flatten([t]).forEach((item, i) => {
           if (!messages[to]?.[conf.prefix]) { messages[to] = { [conf.prefix]: {} } }
           messages[to][conf.prefix][src[i]] = item
@@ -100,7 +105,7 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
         await sleep(1000 / conf.qps)
       }
 
-      await writeUn19nJSON(conf, messages)
+      if (hasTranslate) { await writeUn19nJSON(conf, messages) }
 
       return {
         code: s.toString(),

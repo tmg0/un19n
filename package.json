@@ -19,13 +19,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.mjs",
-      "import": "./dist/index.mjs"
+      "default": "./dist/index.mjs"
     },
     "./nuxt": {
       "types": "./dist/nuxt.d.ts",
-      "require": "./dist/nuxt.mjs",
-      "import": "./dist/nuxt.mjs"
+      "default": "./dist/nuxt.mjs"
     }
   },
   "author": "zekun.jin",
