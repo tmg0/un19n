@@ -15,6 +15,7 @@ interface Un19nConfig {
   filename: string
   includes: string[]
   prefix: string
+  qps: number
 }
 
 

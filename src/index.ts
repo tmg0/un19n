@@ -97,7 +97,7 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
           setExists(exists, src[i], to)
         })
 
-        await sleep(1000)
+        await sleep(1000 / conf.qps)
       }
 
       await writeUn19nJSON(conf, messages)
