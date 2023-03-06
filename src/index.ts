@@ -7,6 +7,9 @@ import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn
 import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
 import { languages } from './shared/consts'
 
+const conf = await readUn19nConfig()
+const messages = await readUn19nJSON(conf)
+
 export const RE = new RegExp(`(?:\\$)?t\\(["']((?:${languages.join('|')})?:.+?)["']\\)`, 'g')
 
 export interface Un19nOptions {
@@ -25,9 +28,8 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
     enforce: 'pre',
 
-    async resolveId (id) {
+    resolveId (id) {
       if (!isUn19nPath(id)) { return null }
-      const conf = await readUn19nConfig()
       return resolveUn19nOutputPath(conf)
     },
 
@@ -51,10 +53,6 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
       const pendings = new Set<string>()
 
-      const conf = await readUn19nConfig()
-
-      const messages = await readUn19nJSON(conf)
-
       for (const match of matches) {
         if (!match) { break }
 
@@ -73,9 +71,13 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
       }
 
       for (const { from, to } of languages) {
-        const src = [...pendings].map(p => parseTag(conf, p)).filter(({ language: l, message: m }) => {
+        const src = [...pendings].map((p) => {
+          return parseTag(conf, p)
+        }).filter(({ language: l, message: m }) => {
           return l === from && !existTranslation(conf, messages, to, m)
-        })?.map(({ message }) => message)
+        })?.map(({ message }) => {
+          return message
+        })
 
         if (!(src && src.length)) { continue }
 
