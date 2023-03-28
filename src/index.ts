@@ -15,10 +15,6 @@ const exists: Partial<Record<string, Set<Language>>> = {}
 
 export const RE = new RegExp(`(?:\\$)?t\\(["']((?:${languages.join('|')})?:.+?)["']\\)`, 'g')
 
-export interface Un19nOptions {
-  includes?: string[]
-}
-
 const un19n = createUnplugin((options?: Un19nOptions) => {
   let includes = ['.']
 

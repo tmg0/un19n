@@ -19,6 +19,9 @@ interface Un19nConfig {
   splitting: boolean
 }
 
+interface Un19nOptions {
+  includes?: string[]
+}
 
 declare module "~un19n" {
   export default any
