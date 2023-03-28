@@ -1,6 +1,6 @@
 const languages = ['zh', 'en', 'de'] as const
 
-type Platform = 'baidu'
+type Platform = 'baidu' | 'openai'
 type Language = typeof languages[number]
 type Translator = (message: string | string[], from: Language, to: Language) => Promise<string | string[]>
 
@@ -17,6 +17,7 @@ interface Un19nConfig {
   prefix: string
   qps: number
   splitting: boolean
+  apiKey?: string
 }
 
 interface Un19nOptions {

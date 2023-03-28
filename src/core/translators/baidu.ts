@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 import { ofetch } from 'ofetch'
 import consola from 'consola'
 import { BaseURL } from '../../shared/enums'
-import { isArray } from 'src/shared/common'
+import { isArray } from '../../shared/common'
 
 export const BAIDU_TRANSLATE = '/api/trans/vip/translate'
 
