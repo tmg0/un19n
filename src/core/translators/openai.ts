@@ -1,8 +1,10 @@
 
 import { ofetch } from 'ofetch'
-import { HttpsProxyAgent } from 'https-proxy-agent'
+import proxyAgent from 'https-proxy-agent'
 import { BaseURL } from '../../shared/enums'
 import { isArray } from '../../shared/common'
+
+const { HttpsProxyAgent } = proxyAgent
 
 export const OPENAI_COMPLETIONS = '/v1/completions'
 
