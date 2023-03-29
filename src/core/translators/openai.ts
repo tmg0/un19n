@@ -41,7 +41,7 @@ export const openaiTranslator = ({ apiKey, organization, proxy }: Un19nConfig): 
 
   const params = {
     model: 'text-davinci-003',
-    prompt: msgs.map(msg => `Translate ${msg} to ${to}`),
+    prompt: msgs.map(msg => `Translate this into ${to}: ${msg}`),
     max_tokens: 500,
     temperature: 0,
     top_p: 0,
