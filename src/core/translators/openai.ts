@@ -31,6 +31,11 @@ export interface OpenaiCompletionResult {
   choices: OpenaiCompletionChoice[]
 }
 
+const langTrans = (key: string | Language) => {
+  const map: any = { zh: 'Simplified Chinese' }
+  return map[key] || key
+}
+
 export const openaiTranslator = ({ apiKey, organization, proxy }: Un19nConfig): Translator => async (messages, from, to) => {
   if (!apiKey) { return '' }
   if (!organization) { return '' }
@@ -41,7 +46,7 @@ export const openaiTranslator = ({ apiKey, organization, proxy }: Un19nConfig): 
 
   const params = {
     model: 'text-davinci-003',
-    prompt: msgs.map(msg => `Translate this into ${to}: ${msg}`),
+    prompt: msgs.map(msg => `Translate this into ${langTrans(to)}: ${msg}`),
     max_tokens: 500,
     temperature: 0,
     top_p: 0,
