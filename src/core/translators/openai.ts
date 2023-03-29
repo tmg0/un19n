@@ -1,6 +1,7 @@
 
 import { ofetch } from 'ofetch'
 import proxyAgent from 'https-proxy-agent'
+import consola from 'consola'
 import { BaseURL } from '../../shared/enums'
 import { isArray } from '../../shared/common'
 
@@ -62,6 +63,7 @@ export const openaiTranslator = ({ apiKey, organization, proxy }: Un19nConfig): 
   const response = await ofetch<OpenaiCompletionResult>(OPENAI_COMPLETIONS, options)
 
   const result = response.choices.map(({ text }) => text.trim())
+  result.forEach((dst, index) => { consola.info(`Translate from ${from}: ${msgs[index]} => ${to}: ${dst}`) })
 
   return multi ? result : result[0] || ''
 }
