@@ -69,12 +69,17 @@ Add `un19n.config.json` file to your project root dir
 
 ```ts un19n.config.json
 {
-  "platform": "baidu",
-  "appid": YOUR_APPID,
-  "secret": YOUR_SECRET,
+  {
+  "platform": "openai",
+  "appid": YOUR_BAIDU_APP_ID,
+  "secret": YOUR_BAIDU_SECRET,
   "from": "en",
   "to": ["zh", "de"],
-  "output": "src/locales"
+  "output": "src/locales",
+  "apiKey": YOUR_OPENAI_API_KEY,
+  "organization": YOUR_OPENAI_ORGINATION,
+  "proxy": YOUR_LOCAL_PROXY_AGENT
+}
 }
 ```
 
@@ -95,25 +100,30 @@ interface Un19nConfig {
   includes: string[]
   prefix: string
   qps: number
+  splitting: boolean
+  apiKey?: string
+  organization?: string
+  proxy?: string
 }
 ```
 
 ### Platform
 
 ```ts
-type Platform = 'baidu'
+type Platform = 'baidu' | 'openai'
 ```
 
 ### Language
 
 ```ts
-type Language = 'zh' | 'en'
+type Language = 'zh' | 'en' | 'de'
 ```
 
 ## Features
 
 - Nuxt module
 - More platform
+- Support ChatGPT
 
 ## License
 [MIT](./LICENSE)
