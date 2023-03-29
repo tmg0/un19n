@@ -18,6 +18,7 @@ interface Un19nConfig {
   qps: number
   splitting: boolean
   apiKey?: string
+  organization?: string
 }
 
 interface Un19nOptions {

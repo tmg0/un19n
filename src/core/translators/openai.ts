@@ -1,29 +1,38 @@
+
 import { Configuration, OpenAIApi } from 'openai'
 import { isArray } from '../../shared/common'
 
-export const openaiTranslator = ({ apiKey }: Un19nConfig): Translator => async (messages, from, to) => {
-  if (!apiKey) { return '' }
+export const OPENAI_COMPLETIONS = '/v1/completions'
 
-  const conf = new Configuration({ apiKey })
-  const openai = new OpenAIApi(conf)
+export interface OpenaiCompletion {
+  model: string
+  prompt:string
+  max_tokens:number
+  temperature: number
+  top_p:number
+  n: number
+  stream: boolean
+  stop: string | null
+}
+
+export const openaiTranslator = ({ apiKey, organization }: Un19nConfig): Translator => async (messages, from, to) => {
+  if (!apiKey) { return '' }
+  if (!organization) { return '' }
+
+  const configuration = new Configuration({ organization, apiKey })
+  const openai = new OpenAIApi(configuration)
 
   const multi = isArray(messages)
 
-  if (multi) {
-    const batchRequests = messages.map((msg) => {
-      return {
-        prompt: `Translate '${msg}' to ${to}:`,
-        temperature: 0,
-        max_tokens: 60,
-        n: 1,
-        stop: null,
-        frequency_penalty: 0,
-        presence_penalty: 0
-      }
-    })
+  const response = await openai.createCompletion({
+    model: 'text-davinci-003',
+    prompt: 'Say this is a test',
+    max_tokens: 7,
+    temperature: 0,
+    stop: null
+  })
 
-    openai.createCompletion(batchRequests[0])
-  }
+  console.log(response)
 
   return ''
 }

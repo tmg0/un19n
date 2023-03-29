@@ -27,12 +27,12 @@ export const generateBaiduSign = (appid: string, q: string, salt: string | numbe
   return md5(`${appid}${q}${salt}${secret}`)
 }
 
-export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => async (message, from, to) => {
+export const baiduTranslator = ({ appid, secret }: Un19nConfig): Translator => async (messages, from, to) => {
   if (!appid) { return '' }
   if (!secret) { return '' }
 
-  const multi = isArray(message)
-  const q = (multi ? message.join('\n') : message) as string
+  const multi = isArray(messages)
+  const q = (multi ? messages.join('\n') : messages) as string
 
   const baseURL = BaseURL.BAIDU
   const salt = nanoid()

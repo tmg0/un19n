@@ -5,6 +5,7 @@ import { translate } from '../src/core'
 describe('baidu translator', () => {
   it('should translate message by baidu open api', async () => {
     const conf = await readUn19nConfig()
-    expect(await translate(conf)('apple', conf.from, conf.to)).toBe('苹果')
+    conf.platform = 'baidu'
+    expect((await translate(conf)(['orange'], conf.from, 'zh'))[0]).toBe('橙色')
   })
 })
