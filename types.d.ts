@@ -19,6 +19,7 @@ interface Un19nConfig {
   splitting: boolean
   apiKey?: string
   organization?: string
+  proxy?: string
 }
 
 interface Un19nOptions {
