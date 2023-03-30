@@ -45,7 +45,7 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
     async transform (code) {
       const matches = code.matchAll(RE)
 
-      if (!matches) { return { code } }
+      if (!matches) { return }
 
       let hasTranslate = false
 
