@@ -8,7 +8,7 @@ import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
 import { languages } from './shared/consts'
 
 let conf: Un19nConfig
-let messages: any
+let messages: Record<Language, any>
 
 (async () => {
   conf = await readUn19nConfig()

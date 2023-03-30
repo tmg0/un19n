@@ -27,5 +27,5 @@ interface Un19nOptions {
 }
 
 declare module "~un19n" {
-  export default any
+  export default Record<Language, any>
 }
