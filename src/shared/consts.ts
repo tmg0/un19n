@@ -9,5 +9,12 @@ export const defaultUn19nConfig: Partial<Un19nConfig> = {
   filename: '_un19n.json',
   prefix: '_un19n',
   qps: 1,
-  splitting: false
+  splitting: false,
+  options: {
+    model: 'text-davinci-003',
+    max_tokens: 500,
+    temperature: 0,
+    top_p: 0,
+    n: 1
+  }
 }

@@ -36,7 +36,7 @@ const langTrans = (key: string | Language) => {
   return map[key] || key
 }
 
-export const openaiTranslator = ({ apiKey, organization, proxy }: Un19nConfig): Translator => async (messages, from, to) => {
+export const openaiTranslator = ({ apiKey, organization, proxy, options: opts }: Un19nConfig): Translator => async (messages, from, to) => {
   if (!apiKey) { return '' }
   if (!organization) { return '' }
 
@@ -53,7 +53,8 @@ export const openaiTranslator = ({ apiKey, organization, proxy }: Un19nConfig): 
     n: 1,
     stream: false,
     logprobs: null,
-    stop: null
+    stop: null,
+    ...(opts || {})
   }
 
   const options = {

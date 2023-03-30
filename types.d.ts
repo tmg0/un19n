@@ -20,6 +20,15 @@ interface Un19nConfig {
   apiKey?: string
   organization?: string
   proxy?: string
+  options?: Un19nConfigOptions
+}
+
+interface Un19nConfigOptions {
+  model: 'text-davinci-003'
+  max_tokens: number
+  temperature: number
+  top_p: number
+  n: number
 }
 
 interface Un19nOptions {
