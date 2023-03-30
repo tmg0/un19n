@@ -20,10 +20,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
-    },
-    "./nuxt": {
-      "types": "./dist/nuxt.d.ts",
-      "default": "./dist/nuxt.mjs"
     }
   },
   "author": "zekun.jin",
@@ -42,8 +38,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@nuxt/kit": "^3.2.3",
-    "@nuxt/schema": "^3.2.3",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/fs-extra": "^11.0.1",
     "@types/lodash.flatten": "^4.4.7",

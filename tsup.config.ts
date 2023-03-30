@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig(options => ({
-  entry: ['./src/index.ts', './src/nuxt.ts'],
+  entry: ['./src/index.ts'],
   splitting: true,
   clean: true,
   treeshake: true,

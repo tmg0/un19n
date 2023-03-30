@@ -7,9 +7,13 @@ import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn
 import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
 import { languages } from './shared/consts'
 
-const conf = await readUn19nConfig()
+let conf: Un19nConfig
+let messages: any
 
-let messages = await readUn19nJSON(conf)
+(async () => {
+  conf = await readUn19nConfig()
+  messages = await readUn19nJSON(conf)
+})()
 
 const exists: Partial<Record<string, Set<Language>>> = {}
 
