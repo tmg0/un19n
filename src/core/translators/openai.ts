@@ -8,6 +8,7 @@ import { isArray } from '../../shared/common'
 const { HttpsProxyAgent } = proxyAgent
 
 export const OPENAI_COMPLETIONS = '/v1/completions'
+export const OPENAI_CHAT_COMPLETIONS = '/v1/chat/completions'
 
 export interface OpenaiCompletion {
   model: string
@@ -20,20 +21,25 @@ export interface OpenaiCompletion {
   stop: string | null
 }
 
+export interface OpenaiChatCompletion {
+  model: string
+  messages: string
+  temperature: number
+}
+
 export interface OpenaiCompletionChoice {
   finish_reason: string
   index: string
   logprobs?: unknown
   text: string
+  message: {
+    role: string
+    content: string
+  }
 }
 
 export interface OpenaiCompletionResult {
   choices: OpenaiCompletionChoice[]
-}
-
-const langTrans = (key: string | Language) => {
-  const map: any = { zh: 'Simplified Chinese' }
-  return map[key] || key
 }
 
 export const openaiTranslator = ({ apiKey, organization, proxy, options: opts }: Un19nConfig): Translator => async (messages, from, to) => {
@@ -45,16 +51,18 @@ export const openaiTranslator = ({ apiKey, organization, proxy, options: opts }:
   const baseURL = BaseURL.OPENAI
 
   const params = {
-    model: 'text-davinci-003',
-    prompt: msgs.map(msg => `Translate this into ${langTrans(to)}: ${msg}`),
-    max_tokens: 500,
+    model: 'gpt-3.5-turbo',
     temperature: 0,
-    top_p: 0,
-    n: 1,
-    stream: false,
-    logprobs: null,
-    stop: null,
-    ...(opts || {})
+    messages: [
+      {
+        role: 'system',
+        content: `You are a helpful assistant that translates ${from} to ${to} split by \n.`
+      },
+      {
+        role: 'user',
+        content: msgs.join('\n')
+      }
+    ]
   }
 
   const options = {
@@ -66,9 +74,11 @@ export const openaiTranslator = ({ apiKey, organization, proxy, options: opts }:
 
   if (proxy) { options.agent = new HttpsProxyAgent(proxy) }
 
-  const response = await ofetch<OpenaiCompletionResult>(OPENAI_COMPLETIONS, options)
+  const response = await ofetch<OpenaiCompletionResult>(OPENAI_CHAT_COMPLETIONS, options)
 
-  const result = response.choices.map(({ text }) => text.trim())
+  if (!response.choices) { return multi ? [] : '' }
+
+  const result = response.choices[0].message.content.split('\n').map(text => text.trim())
   result.forEach((dst, index) => { consola.info(`Translate from ${from}: ${msgs[index]} => ${to}: ${dst}`) })
 
   return multi ? result : result[0] || ''
