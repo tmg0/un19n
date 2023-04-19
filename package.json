@@ -1,8 +1,8 @@
 {
   "name": "un19n",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Quick i18n translation generator",
-  "main": "dist/index.mjs",
+  "main": "dist/index.cjs",
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
@@ -19,7 +19,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/index.mjs"
+      "default": "./dist/index.cjs"
     }
   },
   "author": "zekun.jin",
