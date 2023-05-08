@@ -17,7 +17,7 @@ let messages: Record<Language, any>
 
 const exists: Partial<Record<string, Set<Language>>> = {}
 
-export const RE = new RegExp(`(?:\\$)?t\\(["']((?:${languages.join('|')})?:.+?)["']\\)`, 'g')
+export const RE = new RegExp(`(?:\\$)?t\\(["']((${[...languages, '_'].join('|')})?:.+?)["']\\)`, 'g')
 
 const un19n = createUnplugin((options?: Un19nOptions) => {
   let includes = ['.']
