@@ -1,5 +1,7 @@
 # un19n
 
+![](./docs/public/cover.jpg)
+
 Quick i18n translation generator
 
 ## Setup
