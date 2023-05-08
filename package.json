@@ -1,6 +1,6 @@
 {
   "name": "un19n",
-  "version": "0.0.7",
+  "version": "0.0.11",
   "description": "Quick i18n translation generator",
   "main": "dist/index.mjs",
   "scripts": {
