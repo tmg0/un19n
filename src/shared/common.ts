@@ -1,4 +1,5 @@
 import fse from 'fs-extra'
+import consola from 'consola'
 import { join } from 'pathe'
 import merge from 'lodash.merge'
 import { defaultUn19nConfig } from '../shared/consts'
@@ -31,11 +32,14 @@ export const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
 })
 
 export const readUn19nJSON = async (conf: Un19nConfig): Promise<any> => {
+  const path = join(process.cwd(), conf.output, conf.filename)
+
   try {
-    const path = join(process.cwd(), conf.output, conf.filename)
+    await fse.ensureFile(path)
     const json = await fse.readJson(path)
     return json || {}
   } catch {
+    await fse.writeJson(path, {})
     return Promise.resolve({})
   }
 }
