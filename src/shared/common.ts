@@ -10,12 +10,18 @@ export const defineUn19nConfig = (config: Un19nConfig) => config
 
 export const readUn19nConfig = async (): Promise<Un19nConfig> => {
   const path = join(process.cwd(), 'un19n.config.json')
-  const conf = await fse.readJson(path)
-  const res: Un19nConfig = merge(defaultUn19nConfig, conf)
+  try {
+    const conf = await fse.readJson(path)
+    const res: Un19nConfig = merge(defaultUn19nConfig, conf)
 
-  if (!res.to.includes(res.from)) { res.to = [...res.to, res.from] }
+    if (!res.to.includes(res.from)) { res.to = [...res.to, res.from] }
 
-  return res
+    return res
+  } catch {
+    const err = new Error('Can not find un19n config file.')
+    consola.error(err)
+    throw err
+  }
 }
 
 export const isArray = (value: any): value is any[] => Array.isArray(value)
