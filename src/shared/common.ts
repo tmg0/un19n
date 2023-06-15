@@ -1,4 +1,5 @@
 import fse from 'fs-extra'
+import consola from 'consola'
 import { join } from 'pathe'
 import merge from 'lodash.merge'
 import { defaultUn19nConfig } from '../shared/consts'
@@ -10,12 +11,18 @@ export const defineUn19nConfig = (config: Un19nConfig) => config
 
 export const readUn19nConfig = async (): Promise<Un19nConfig> => {
   const path = join(process.cwd(), 'un19n.config.json')
-  const conf = await fse.readJson(path)
-  const res: Un19nConfig = merge(defaultUn19nConfig, conf)
+  try {
+    const conf = await fse.readJson(path)
+    const res: Un19nConfig = merge(defaultUn19nConfig, conf)
 
-  if (!res.to.includes(res.from)) { res.to = [...res.to, res.from] }
+    if (!res.to.includes(res.from)) { res.to = [...res.to, res.from] }
 
-  return res
+    return res
+  } catch {
+    const err = new Error('Can not find un19n config file.')
+    consola.error(err)
+    throw err
+  }
 }
 
 export const isArray = (value: any): value is any[] => Array.isArray(value)
@@ -25,11 +32,14 @@ export const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
 })
 
 export const readUn19nJSON = async (conf: Un19nConfig): Promise<any> => {
+  const path = join(process.cwd(), conf.output, conf.filename)
+
   try {
-    const path = join(process.cwd(), conf.output, conf.filename)
+    await fse.ensureFile(path)
     const json = await fse.readJson(path)
     return json || {}
   } catch {
+    await fse.writeJson(path, {})
     return Promise.resolve({})
   }
 }

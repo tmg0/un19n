@@ -6,6 +6,6 @@ export default defineConfig(options => ({
   clean: true,
   treeshake: true,
   dts: true,
-  format: ['esm', 'cjs'],
+  format: ['cjs'],
   minify: !options.watch
 }))
