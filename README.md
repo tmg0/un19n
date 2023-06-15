@@ -41,7 +41,7 @@ export default defineConfig({
 ```ts webpack.config.js
 module.exports = {
   plugins: [
-    require('un19n').webpack({ /* options */ })
+    require('un19n').default.webpack({ /* options */ })
   ]
 }
 ```
