@@ -5,7 +5,7 @@ export default defineConfig(options => ({
   splitting: true,
   clean: true,
   treeshake: true,
-  dts: true,
+  dts: !options.watch,
   format: ['cjs'],
   minify: !options.watch
 }))

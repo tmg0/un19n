@@ -1,5 +1,6 @@
 
 import { createUnplugin } from 'unplugin'
+import { minimatch } from 'minimatch'
 import MagicString from 'magic-string'
 import flatten from 'lodash.flatten'
 import { translate } from './core'
@@ -24,8 +25,6 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
   if (options?.includes) { includes = options.includes }
 
-  const fileRE = new RegExp(`.*(${includes.join('|')}).*.(ts|js|tsx|jsx|vue)`, 'g')
-
   return {
     name: 'un19n',
 
@@ -36,11 +35,9 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
       return resolveUn19nOutputPath(conf)
     },
 
-    loadInclude (id) {
-      return isUn19nPath(id)
-    },
+    loadInclude: id => isUn19nPath(id),
 
-    transformInclude: id => fileRE.test(id),
+    transformInclude: id => minimatch(id, `**/@(${includes.join('|')})/**/*.{ts,js,tsx,jsx,vue}*`),
 
     async transform (code) {
       const matches = code.matchAll(RE)
