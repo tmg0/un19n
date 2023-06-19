@@ -24,7 +24,7 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
   if (options?.includes) { includes = options.includes }
 
-  const fileRE = new RegExp(`.*${includes[0]}.*.(ts|js|tsx|jsx|vue)`, 'g')
+  const fileRE = new RegExp(`.*(${includes.join('|')}).*.(ts|js|tsx|jsx|vue)`, 'g')
 
   return {
     name: 'un19n',
