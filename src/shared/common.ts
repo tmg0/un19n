@@ -4,7 +4,7 @@ import { join } from 'pathe'
 import merge from 'lodash.merge'
 import { defaultUn19nConfig } from '../shared/consts'
 
-const URL_PREFIXES = ['/~un19n/', '~un19n/', '~un19n', 'virtual:un19n/', 'virtual/un19n/', 'virtual/un19n']
+const URL_PREFIXES = ['/~un19n/', '~un19n/', '~un19n', 'virtual:un19n/', 'virtual/un19n/', 'virtual/un19n', '~un19n/messages']
 const un19nPathRE = new RegExp(`${URL_PREFIXES.map(v => `^${v}`).join('|')}`)
 
 export const defineUn19nConfig = (config: Un19nConfig) => config
