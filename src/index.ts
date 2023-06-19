@@ -44,6 +44,8 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
 
       if (!matches) { return }
 
+      await await sleep(1000 / conf.qps)
+
       let hasTranslate = false
 
       const s = new MagicString(code)
