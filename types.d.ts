@@ -34,8 +34,7 @@ interface Un19nConfigOptions {
 interface Un19nOptions {
   includes?: string[]
 }
-
 declare module "~un19n/messages" {
-  const messages = Record<Language, any>
+  const messages: Record<Language, any>
   export default messages
 }
