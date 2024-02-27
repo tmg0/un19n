@@ -29,7 +29,7 @@ export interface Un19nOptions<T extends Platform = 'baidu'> {
   to: Language[]
 
   /**
-   * Native i18n tanslation prefix
+   * Custom tanslation prefix
    * @default "_un19n"
    */
   prefix?: string
