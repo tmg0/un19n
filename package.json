@@ -24,6 +24,7 @@
   },
   "author": "zekun.jin",
   "dependencies": {
+    "@rollup/pluginutils": "^5.1.0",
     "citty": "^0.1.6",
     "consola": "^2.15.3",
     "fs-extra": "^11.1.0",

@@ -4,8 +4,6 @@ export type Platform = 'baidu' | 'openai'
 
 export type Translator = <T extends string | string[]>(message: T[], from: Language, to: Language) => Promise<T[]>
 
-export type FilterPattern = string | RegExp | readonly (string | RegExp)[] | null
-
 export interface BaiduOptions {
   appid: string
   secret: string
@@ -41,4 +39,8 @@ export interface Un19nOptions<T extends Platform = 'baidu'> {
    * @default 100
    */
   qps?: number
+}
+
+export interface Un19n {
+
 }
