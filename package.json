@@ -4,7 +4,7 @@
   "description": "Quick i18n translation generator",
   "main": "dist/index.mjs",
   "scripts": {
-    "dev": "tsup --watch",
+    "dev": "vitest dev",
     "build": "tsup",
     "test": "vitest"
   },

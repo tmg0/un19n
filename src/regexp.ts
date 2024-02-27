@@ -1,4 +1,4 @@
-import { createRegExp, maybe, anyOf, char } from 'magic-regexp'
+import { createRegExp, maybe, anyOf, word, global, multiline } from 'magic-regexp'
 import { Language } from './types'
 
-export const matchRE = createRegExp(maybe('$'), 't(', maybe(anyOf(...Language)), ':', char, ')')
+export const matchRE = createRegExp(maybe('$'), 't(', anyOf('\'', '"', '`'), anyOf('_', ...Language), ':', word, anyOf('\'', '"', '`'), [global, multiline])
