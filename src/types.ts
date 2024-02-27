@@ -2,7 +2,7 @@ export const Language = ['zh', 'en', 'jp', 'kor', 'fra', 'spa', 'th', 'ara', 'ru
 
 export type Platform = 'baidu' | 'openai'
 
-export type Translator = <T extends string | string[]>(message: T[], from: Language, to: Language) => Promise<T[]>
+export type Translator = <T extends string | string[]>(message: T, from: Language, to: Language) => Promise<T>
 
 export interface BaiduOptions {
   appid: string
@@ -30,7 +30,7 @@ export interface Un19nOptions<T extends Platform = 'baidu'> {
 
   /**
    * Custom tanslation prefix
-   * @default "_un19n"
+   * @default "__un19n"
    */
   prefix?: string
 
@@ -45,8 +45,28 @@ export interface Un19nOptions<T extends Platform = 'baidu'> {
    * @default 100
    */
   qps?: number
+
+  /**
+   * Custom translator
+   * @param t - translator callback
+   */
+  translator?: (t: Translator) => void
 }
 
-export interface Un19n {
+export interface Translation {
+  message: string
+  from: Language
+  to: Language[]
+}
 
+export interface Un19nContext<T extends Platform = 'baidu'> {
+  readonly version: string
+
+  options: Partial<Un19nOptions<T>>
+
+  detectTranslations: () => Promise<Record<string, Translation>>
+}
+
+export interface Un19n<T extends Platform = 'baidu'> {
+  detectTranslations: Un19nContext<T>['detectTranslations']
 }

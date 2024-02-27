@@ -31,6 +31,8 @@ export default createUnplugin<Partial<Un19nPluginOptions>>((options = {}) => {
     transform (code, id) {
       const s = new MagicString(code)
 
+      if (!s.hasChanged()) { return }
+
       return {
         code: s.toString(),
         map: s.generateMap()
