@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import { describe, it, expect } from 'vitest'
 import { matchRE } from '../src/regexp'
 import vueTemplate from './cases/vue-template.vue?raw'
