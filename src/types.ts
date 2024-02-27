@@ -11,12 +11,12 @@ export interface BaiduOptions {
   secret: string
 }
 
-export interface Un19nOptions {
+export interface Un19nOptions<T extends Platform = 'baidu'> {
   /**
    * Translator based platform
    * @default 'baidu'
    */
-  platform: Platform
+  platform: T
 
   /**
    * Default source language
@@ -31,8 +31,14 @@ export interface Un19nOptions {
   to: Language[]
 
   /**
-   * Baidu APIs access options
+   * Baidu APIs access options, required if used baidu as platform
    * @default undefined
    */
-  baidu?: BaiduOptions
+  baidu: T extends 'baidu' ? BaiduOptions : undefined | null | false
+
+  /**
+   * Queries per second
+   * @default 100
+   */
+  qps?: number
 }
