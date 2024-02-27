@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vitest dev",
     "build": "tsup",
+    "play": "pnpm -C playground run dev",
     "test": "vitest"
   },
   "files": [
