@@ -30,6 +30,7 @@
     "https-proxy-agent": "^5.0.1",
     "lodash.flatten": "^4.4.0",
     "lodash.merge": "^4.6.2",
+    "magic-regexp": "^0.7.0",
     "magic-string": "^0.30.0",
     "md5": "^2.3.0",
     "minimatch": "^9.0.1",
