@@ -8,4 +8,15 @@ describe('regexp', () => {
   it('match re', () => {
     expect(matchRE.test(vueTemplate)).toBe(true)
   })
+
+  it('match re metches', () => {
+    expect(vueTemplate.match(matchRE)?.length).toBe(3)
+  })
+
+  it('match re translate from language', () => {
+    const matches = vueTemplate.matchAll(matchRE)! ?? []
+    for (const match of matches) {
+      expect(match[1]).toBe('en')
+    }
+  })
 })
