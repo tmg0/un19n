@@ -1,6 +1,7 @@
 import { createUnplugin } from 'unplugin'
 import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
+import MagicString from 'magic-string'
 import type { Un19nOptions } from './types'
 
 export interface Un19nPluginOptions extends Un19nOptions {
@@ -26,6 +27,14 @@ export default createUnplugin<Partial<Un19nPluginOptions>>((options = {}) => {
     enforce: 'post',
     transformInclude (id) {
       return filter(id)
+    },
+    transform (code, id) {
+      const s = new MagicString(code)
+
+      return {
+        code: s.toString(),
+        map: s.generateMap()
+      }
     }
   }
 })

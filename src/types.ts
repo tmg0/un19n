@@ -12,13 +12,13 @@ export interface BaiduOptions {
 export interface Un19nOptions<T extends Platform = 'baidu'> {
   /**
    * Translator based platform
-   * @default 'baidu'
+   * @default "baidu"
    */
   platform: T
 
   /**
    * Default source language
-   * @default 'en'
+   * @default "en"
    */
   from: Language
 
@@ -27,6 +27,12 @@ export interface Un19nOptions<T extends Platform = 'baidu'> {
    * @default []
    */
   to: Language[]
+
+  /**
+   * Native i18n tanslation prefix
+   * @default "_un19n"
+   */
+  prefix?: string
 
   /**
    * Baidu APIs access options, required if used baidu as platform
