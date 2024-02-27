@@ -1,4 +1,4 @@
-export const Language = ['zh', 'en', 'de'] as const
+export const Language = ['zh', 'en', 'jp', 'kor', 'fra', 'spa', 'th', 'ara', 'ru', 'pt', 'de', 'it', 'el', 'nl', 'pl'] as const
 
 export type Platform = 'baidu' | 'openai'
 
@@ -18,9 +18,9 @@ export interface Un19nOptions<T extends Platform = 'baidu'> {
 
   /**
    * Default source language
-   * @default "en"
+   * @default "auto"
    */
-  from: Language
+  from: Language | 'auto'
 
   /**
    * Translation target languages
