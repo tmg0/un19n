@@ -28,7 +28,7 @@ const un19n = createUnplugin((options?: Un19nOptions) => {
   return {
     name: 'un19n',
 
-    enforce: 'pre',
+    enforce: 'post',
 
     resolveId (id) {
       if (!isUn19nPath(id)) { return null }
