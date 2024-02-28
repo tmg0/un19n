@@ -12,12 +12,12 @@ export const createUn19n = <T extends Platform>(options: Partial<Un19nOptions<T>
   }
 
   return {
-    detectTranslations
+    detectTranslations: (code: string | MagicString) => detectTranslations(code, ctx)
   }
 }
 
 const createInternalContext = <T extends Platform>(options: Partial<Un19nOptions<T>>) => {
-  const _map: Record<string, Translation> = {}
+  const translationMap: Record<string, Translation> = {}
 
   const ctx: Un19nContext<T> = {
     version,
@@ -27,8 +27,13 @@ const createInternalContext = <T extends Platform>(options: Partial<Un19nOptions
   return ctx
 }
 
-const injectTranslations = (code: MagicString | string, id: string | undefined, ctx: Un19nContext) => {
+const generateTranslations = <T extends Platform>(code: MagicString | string, ctx: Un19nContext<T>) => {
   const s = getMagicString(code)
 
   const { matchedTranslations } = detectTranslations(s, ctx)
+
+  return {
+    s,
+    translations: matchedTranslations
+  }
 }

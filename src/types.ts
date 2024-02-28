@@ -3,7 +3,7 @@ import { LANGUAGES } from './constants'
 
 export type Language = typeof LANGUAGES[number]
 
-export type Platform = 'baidu' | 'openai'
+export type Platform = 'baidu' | 'openai' | undefined
 
 export type Translator = <T extends string | string[]>(message: T, from: Language, to: Language) => Promise<T>
 
@@ -12,7 +12,7 @@ export interface BaiduOptions {
   secret: string
 }
 
-export interface Un19nOptions<T extends Platform | undefined = undefined> {
+export interface Un19nOptions<T extends Platform = undefined> {
   /**
    * Translator based platform
    */
@@ -62,14 +62,14 @@ export interface Translation {
   to: Language[]
 }
 
-export interface Un19nContext<T extends Platform = 'baidu'> {
+export interface Un19nContext<T extends Platform = undefined> {
   readonly version: string
 
   options: Partial<Un19nOptions<T>>
 }
 
 export interface Un19n {
-  detectTranslations: (code: string | MagicString, ctx: Un19nContext) => DetectTranslationResult
+  detectTranslations: (code: string | MagicString) => DetectTranslationResult
 }
 
 export interface DetectTranslationResult {
