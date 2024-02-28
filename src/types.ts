@@ -1,4 +1,7 @@
-export const Language = ['zh', 'en', 'jp', 'kor', 'fra', 'spa', 'th', 'ara', 'ru', 'pt', 'de', 'it', 'el', 'nl', 'pl'] as const
+import type MagicString from 'magic-string'
+import { LANGUAGES } from './constants'
+
+export type Language = typeof LANGUAGES[number]
 
 export type Platform = 'baidu' | 'openai'
 
@@ -12,7 +15,6 @@ export interface BaiduOptions {
 export interface Un19nOptions<T extends Platform = 'baidu'> {
   /**
    * Translator based platform
-   * @default "baidu"
    */
   platform: T
 
@@ -49,6 +51,7 @@ export interface Un19nOptions<T extends Platform = 'baidu'> {
   /**
    * Custom translator
    * @param t - translator callback
+   * @default undefined
    */
   translator?: (t: Translator) => void
 }
@@ -63,10 +66,13 @@ export interface Un19nContext<T extends Platform = 'baidu'> {
   readonly version: string
 
   options: Partial<Un19nOptions<T>>
-
-  detectTranslations: () => Promise<Record<string, Translation>>
 }
 
-export interface Un19n<T extends Platform = 'baidu'> {
-  detectTranslations: Un19nContext<T>['detectTranslations']
+export interface Un19n {
+  detectTranslations: (code: string | MagicString, ctx: Un19nContext) => DetectTranslationResult
+}
+
+export interface DetectTranslationResult {
+  s: MagicString
+  matchedTranslations: Translation[]
 }
