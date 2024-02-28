@@ -12,7 +12,7 @@ export interface BaiduOptions {
   secret: string
 }
 
-export interface Un19nOptions<T extends Platform = 'baidu'> {
+export interface Un19nOptions<T extends Platform | undefined = undefined> {
   /**
    * Translator based platform
    */

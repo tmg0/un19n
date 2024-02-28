@@ -20,6 +20,9 @@ importers:
       consola:
         specifier: ^2.15.3
         version: 2.15.3
+      defu:
+        specifier: ^6.1.4
+        version: 6.1.4
       fs-extra:
         specifier: ^11.1.0
         version: 11.1.0

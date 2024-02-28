@@ -29,6 +29,7 @@
     "c12": "^1.9.0",
     "citty": "^0.1.6",
     "consola": "^2.15.3",
+    "defu": "^6.1.4",
     "fs-extra": "^11.1.0",
     "https-proxy-agent": "^5.0.1",
     "lodash.flatten": "^4.4.0",
