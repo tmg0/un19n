@@ -1,3 +1,3 @@
-import { defineConfig } from './utils'
+import { defineConfig } from './config'
 
 export { defineConfig }
