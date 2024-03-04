@@ -1,5 +1,4 @@
 import { defineConfig } from 'tsup'
-import { MagicRegExpTransformPlugin } from 'magic-regexp/transform'
 
 export default defineConfig(options => ({
   entry: ['./src/index.ts'],
@@ -7,7 +6,6 @@ export default defineConfig(options => ({
   clean: true,
   treeshake: true,
   dts: !options.watch,
-  format: ['cjs'],
-  minify: !options.watch,
-  esbuildPlugins: [MagicRegExpTransformPlugin.esbuild()]
+  format: ['esm'],
+  minify: !options.watch
 }))

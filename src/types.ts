@@ -70,7 +70,8 @@ export interface Translation {
 export interface Un19nContext<T extends Platform = undefined> {
   readonly version: string
 
-  options: Partial<Un19nOptions<T>>
+  options: Un19nOptions<T>
+  getTranslationMap: () => TranslationMap
 }
 
 export interface Un19n<T extends Platform = undefined> {
@@ -94,7 +95,7 @@ export interface TranslatorOptions<M extends string | string[] = string, C exten
 
 export type Translator<M extends string | string[], C extends Platform> = (options: TranslatorOptions<M, C>) => Promise<string[]> | M
 
-export type TranslationMap = Partial<Record<Language, Record<string, string>>>
+export type TranslationMap = Map<[Language, Language], Record<string, string>>
 
 export interface BaiduTranslateSuccess {
   from: Language

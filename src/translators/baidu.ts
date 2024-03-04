@@ -1,13 +1,14 @@
 import md5 from 'md5'
 import { nanoid } from 'nanoid'
 import { ofetch } from 'ofetch'
+import consola from 'consola'
 import { defineTranslator } from '../utils'
 import { BAIDU_TRANSLATE_API } from '../constants'
 import type { BaiduTranslateError, BaiduTranslateResponse } from '../types'
 
 const isError = (response: any): response is BaiduTranslateError => !!response.error_msg
 
-export default defineTranslator<string[], 'baidu'>(async (options) => {
+const tanslator = defineTranslator<string[], 'baidu'>(async (options) => {
   const { appid, secret } = options.ctx.options.baidu!
 
   if (!appid) { return [] }
@@ -25,6 +26,8 @@ export default defineTranslator<string[], 'baidu'>(async (options) => {
     sign: md5(`${appid}${q}${salt}${secret}`)
   }
 
+  consola.info(`using Un19n to translate message from ${query.from} to ${query.to}`)
+
   const response = await ofetch<BaiduTranslateResponse>(BAIDU_TRANSLATE_API, { query })
 
   if (isError(response)) {
@@ -41,3 +44,5 @@ export default defineTranslator<string[], 'baidu'>(async (options) => {
 
   return result
 })
+
+export default tanslator
