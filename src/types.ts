@@ -5,9 +5,8 @@ export type Language = typeof LANGUAGES[number]
 
 export type Platform = 'baidu' | 'openai' | undefined
 
-export type Translator = <T extends string | string[]>(message: T, from: Language, to: Language) => Promise<T>
-
 export interface BaiduOptions {
+  baseURL: string
   appid: string
   secret: string
 }
@@ -34,7 +33,13 @@ export interface Un19nOptions<T extends Platform = undefined> {
    * Custom tanslation prefix
    * @default "__un19n"
    */
-  prefix?: string
+  prefix: string
+
+  /**
+   * Output messages file
+   * @default "locale/__un19n.json"
+   */
+  output: string
 
   /**
    * Baidu APIs access options, required if used baidu as platform
@@ -46,14 +51,14 @@ export interface Un19nOptions<T extends Platform = undefined> {
    * Queries per second
    * @default 100
    */
-  qps?: number
+  qps: number
 
   /**
    * Custom translator
    * @param t - translator callback
    * @default undefined
    */
-  translator?: (t: Translator) => void
+  translator?: <M extends string | string[], C extends Platform>(t: Translator<M, C>) => void
 }
 
 export interface Translation {
@@ -68,11 +73,41 @@ export interface Un19nContext<T extends Platform = undefined> {
   options: Partial<Un19nOptions<T>>
 }
 
-export interface Un19n {
+export interface Un19n<T extends Platform = undefined> {
+  options: Un19nOptions<T>
+  init: () => void | Promise<void>
   detectTranslations: (code: string | MagicString) => DetectTranslationResult
+  injectTranslations: (code: string | MagicString, id: string) => Promise<void>
 }
 
 export interface DetectTranslationResult {
   s: MagicString
   matchedTranslations: Translation[]
 }
+
+export interface TranslatorOptions<M extends string | string[] = string, C extends Platform = undefined> {
+  message: M
+  from: Language
+  to: Language
+  ctx: Un19n<C>
+}
+
+export type Translator<M extends string | string[], C extends Platform> = (options: TranslatorOptions<M, C>) => Promise<string[]> | M
+
+export type TranslationMap = Partial<Record<Language, Record<string, string>>>
+
+export interface BaiduTranslateSuccess {
+  from: Language
+  to: Language
+  trans_result: {
+    src: string
+    dst: string
+  }[]
+}
+
+export interface BaiduTranslateError {
+  error_msg: string
+  data: Record<string, string>
+}
+
+export type BaiduTranslateResponse = BaiduTranslateSuccess | BaiduTranslateError
