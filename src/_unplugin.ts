@@ -5,7 +5,7 @@ import MagicString from 'magic-string'
 import type { Un19nOptions } from './types'
 import { createUn19n } from './context'
 
-export interface Un19nPluginOptions extends Un19nOptions {
+export interface Un19nPluginOptions<T extends Platform> extends Un19nOptions<T> {
   include: FilterPattern
   exclude: FilterPattern
 }
@@ -15,7 +15,7 @@ export const defaultExcludes = [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/]
 
 const toArray = <T>(x: T | T[] | undefined | null): T[] => x == null ? [] : Array.isArray(x) ? x : [x]
 
-export default createUnplugin<Partial<Un19nPluginOptions>>((options = {}) => {
+export default createUnplugin<Partial<Un19nPluginOptions<Platform>>>((options = {}) => {
   const ctx = createUn19n(options)
 
   const filter = createFilter(

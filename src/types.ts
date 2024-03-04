@@ -6,7 +6,6 @@ export type Language = typeof LANGUAGES[number]
 export type Platform = 'baidu' | 'openai' | undefined
 
 export interface BaiduOptions {
-  baseURL: string
   appid: string
   secret: string
 }
