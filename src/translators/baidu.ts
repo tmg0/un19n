@@ -31,7 +31,8 @@ const tanslator = defineTranslator<string[], 'baidu'>(async (options) => {
   const response = await ofetch<BaiduTranslateResponse>(BAIDU_TRANSLATE_API, { query })
 
   if (isError(response)) {
-    throw response
+    consola.warn(response.error_msg)
+    return []
   }
 
   const translations = response.trans_result

@@ -31,8 +31,10 @@ export default createUnplugin<Partial<Un19nPluginOptions<Platform>>>((options = 
     transformInclude (id) {
       return filter(id)
     },
-    transform (code, id) {
+    async transform (code, id) {
       const s = new MagicString(code)
+
+      await ctx.injectTranslations(code, id)
 
       if (!s.hasChanged()) { return }
 
