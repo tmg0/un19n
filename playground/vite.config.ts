@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import un19n from '../src/_unplugin'
 
+import 'dotenv/config'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -11,8 +13,8 @@ export default defineConfig({
       from: 'en',
       to: ['de'],
       baidu: {
-        appid: '',
-        secret: ''
+        appid: process.env.BAIDU_APP_ID!,
+        secret: process.env.BAIDU_SECRET!
       }
     })
   ]

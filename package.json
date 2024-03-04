@@ -1,12 +1,12 @@
 {
   "name": "un19n",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.1",
   "description": "Quick i18n translation generator",
   "main": "dist/index.mjs",
   "scripts": {
     "dev": "vitest dev",
     "build": "tsup",
-    "play": "pnpm -C playground run dev",
+    "play": "pnpm -C --filter @un19n/playground run dev",
     "test": "vitest"
   },
   "files": [
