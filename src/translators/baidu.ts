@@ -13,6 +13,7 @@ const tanslator = defineTranslator<string[], 'baidu'>(async (options) => {
 
   if (!appid) { return [] }
   if (!secret) { return [] }
+  if (!options.message.length) { return [] }
 
   const q = options.message.join('\n')
   const salt = nanoid()

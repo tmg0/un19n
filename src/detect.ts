@@ -1,6 +1,6 @@
 import type MagicString from 'magic-string'
 import { getMagicString } from './utils'
-import { matchRE, stripCommentsAndStrings } from './regexp'
+import { matchRE } from './regexp'
 import type { Translation, Language, Un19nContext, DetectTranslationResult, Platform } from './types'
 
 export const detectTranslations = <T extends Platform>(code: string | MagicString, ctx: Un19nContext<T>): DetectTranslationResult => {
@@ -8,9 +8,7 @@ export const detectTranslations = <T extends Platform>(code: string | MagicStrin
   const s = getMagicString(code)
   const original = s.original
 
-  const strippedCode = stripCommentsAndStrings(original)
-
-  const matches = strippedCode.matchAll(matchRE)! ?? []
+  const matches = original.matchAll(matchRE(ctx))! ?? []
 
   for (const match of matches) {
     const [_, language, message] = match

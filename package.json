@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vitest dev",
     "build": "tsup",
-    "play": "pnpm -C --filter @un19n/playground run dev",
+    "play": "pnpm -C --filter @un19n/playground dev",
+    "build:play": "pnpm -C --filter @un19n/playground build",
     "test": "vitest"
   },
   "files": [

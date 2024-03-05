@@ -71,6 +71,7 @@ const injectTranslations = async <T extends Platform>(code: string | MagicString
 
   for (const _key of _keys) {
     const [from, to] = _key
+    if (from === to) { continue }
     const message = Object.entries(_map.get(_key) ?? {}).filter(([_, r]) => Boolean(r)).map(([m]) => m.split('_').join(' '))
     const results = await translator({ message, from, to })
 

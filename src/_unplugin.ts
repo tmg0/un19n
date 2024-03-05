@@ -27,7 +27,7 @@ export default createUnplugin<Partial<Un19nPluginOptions<Platform>>>((options = 
 
   return {
     name: 'un19n',
-    enforce: 'post',
+    enforce: 'pre',
     transformInclude (id) {
       return filter(id)
     },

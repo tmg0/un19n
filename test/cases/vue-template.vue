@@ -2,13 +2,13 @@
 const { t } = useI18n()
 
 const message = computed(() => {
-  return t('en:banana')
+  return t('__un19n.en:banana')
 })
 </script>
 
 <template>
   <div>
-    <span>{{ t('en:apple') }}</span>
-    <span>{{ t('en:I_have_a_pineapple') }}</span>
+    <span>{{ t('__un19n.en:apple') }}</span>
+    <span>{{ t('__un19n.en:I_have_a_pineapple') }}</span>
   </div>
 </template>
