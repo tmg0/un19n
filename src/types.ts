@@ -62,6 +62,7 @@ export interface Un19nOptions<T extends Platform = undefined> {
 
 export interface Translation {
   message: string
+  src: string
   from: Language
   to: Language[]
 }
@@ -70,13 +71,15 @@ export interface Un19nContext<T extends Platform = undefined> {
   readonly version: string
 
   options: Un19nOptions<T>
-  getTranslationMap: () => TranslationMap
+  absoluteOutput: string
+  getTranslations: () => Promise<Record<string, any>>
+  getTranslationMap: () => Promise<TranslationMap>
 }
 
 export interface Un19n<T extends Platform = undefined> {
   options: Un19nOptions<T>
   init: () => void | Promise<void>
-  detectTranslations: (code: string | MagicString) => DetectTranslationResult
+  detectCode: (code: string | MagicString) => DetectTranslationResult
   injectTranslations: (code: string | MagicString, id: string) => Promise<void>
 }
 
@@ -94,7 +97,7 @@ export interface TranslatorOptions<M extends string | string[] = string, C exten
 
 export type Translator<M extends string | string[], C extends Platform> = (options: TranslatorOptions<M, C>) => Promise<string[]> | M
 
-export type TranslationMap = Map<[Language, Language], Record<string, string>>
+export type TranslationMap = Map<string, Record<string, string>>
 
 export interface BaiduTranslateSuccess {
   from: Language

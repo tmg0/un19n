@@ -1,5 +1,5 @@
 import { defineConfig } from './config'
-import unplugin from './_unplugin'
+import unplugin from './unplugin'
 
 export { defineConfig }
 

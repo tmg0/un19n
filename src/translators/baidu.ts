@@ -27,7 +27,7 @@ const tanslator = defineTranslator<string[], 'baidu'>(async (options) => {
     sign: md5(`${appid}${q}${salt}${secret}`)
   }
 
-  consola.info(`using Un19n to translate message from ${query.from} to ${query.to}`)
+  consola.info(`using Un19n(Baidu) to translate message from ${query.from} to ${query.to} \n`)
 
   const response = await ofetch<BaiduTranslateResponse>(BAIDU_TRANSLATE_API, { query })
 
@@ -40,8 +40,8 @@ const tanslator = defineTranslator<string[], 'baidu'>(async (options) => {
 
   const result = translations.map(({ dst }) => dst)
 
-  translations.forEach(({ dst }) => {
-    process.stdout.write(`${options.from} → ${dst}\n`)
+  translations.forEach(({ src, dst }) => {
+    process.stdout.write(`${src} → ${dst}\n`)
   })
 
   return result

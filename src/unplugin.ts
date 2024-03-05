@@ -1,117 +1,50 @@
-
 import { createUnplugin } from 'unplugin'
-import { minimatch } from 'minimatch'
+import type { FilterPattern } from '@rollup/pluginutils'
+import { createFilter } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
-import flatten from 'lodash.flatten'
-import { translate } from './core'
-import { setSrcTranslation, isUn19nPath, readUn19nConfig, readUn19nJSON, writeUn19nJSON, sleep, parseTag, existTranslation, setExists, isExist } from './shared/common'
-import { resolveUn19nMatch, resolveUn19nOutputPath } from './shared/resolve'
-import { languages } from './shared/consts'
+import type { Un19nOptions } from './types'
+import { createUn19n } from './context'
 
-let conf: Un19nConfig
-let messages: Record<Language, any>
+export interface Un19nPluginOptions<T extends Platform> extends Un19nOptions<T> {
+  include: FilterPattern
+  exclude: FilterPattern
+}
 
-(async () => {
-  conf = await readUn19nConfig()
-  messages = await readUn19nJSON(conf)
-})()
+export const defaultIncludes = [/\.[jt]sx?$/, /\.vue$/, /\.vue\?vue/, /\.svelte$/]
+export const defaultExcludes = [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/]
 
-const exists: Partial<Record<string, Set<Language>>> = {}
+const toArray = <T>(x: T | T[] | undefined | null): T[] => x == null ? [] : Array.isArray(x) ? x : [x]
 
-export const RE = new RegExp(`(?:\\$)?t\\(["']((${[...languages, '_'].join('|')})?:.+?)["']\\)`, 'g')
+export default createUnplugin<Partial<Un19nPluginOptions<Platform>>>((options = {}) => {
+  const ctx = createUn19n(options)
 
-const un19n = createUnplugin((options?: Un19nOptions) => {
-  let includes = ['.']
-
-  if (options?.includes) { includes = options.includes }
+  const filter = createFilter(
+    toArray(options.include as string[] || []).length
+      ? options.include
+      : defaultIncludes,
+    options.exclude || defaultExcludes
+  )
 
   return {
     name: 'un19n',
-
-    enforce: 'post',
-
-    resolveId (id) {
-      if (!isUn19nPath(id)) { return null }
-      return resolveUn19nOutputPath(conf)
+    enforce: 'pre',
+    transformInclude (id) {
+      return filter(id)
     },
-
-    loadInclude: id => isUn19nPath(id),
-
-    transformInclude: id => minimatch(id, `**/@(${includes.join('|')})/**/*.{ts,js,tsx,jsx,vue}*`),
-
-    async transform (code) {
-      const matches = code.matchAll(RE)
-
-      if (!matches) { return }
-
-      await sleep(1000 / conf.qps)
-
-      let hasTranslate = false
-
+    async transform (code, id) {
       const s = new MagicString(code)
 
-      const languages: {
-        from: Language
-        to: Language
-      }[] = []
+      await ctx.injectTranslations(code, id)
 
-      const pendings = new Set<string>()
-
-      for (const match of matches) {
-        if (!match) { continue }
-
-        const { start, end, language, message, tag } = resolveUn19nMatch(conf, match)
-
-        s.update(start, end, `${conf.prefix}.${message}`)
-
-        if (isExist(conf, exists, message)) { continue }
-
-        setExists(exists, message, language)
-
-        messages = setSrcTranslation(conf, messages, language, message)
-        hasTranslate = true
-
-        for (const target of conf.to) {
-          if (language === target) { continue }
-
-          languages.push({ from: language, to: target })
-          pendings.add(tag)
-        }
-      }
-
-      for (const { from, to } of languages) {
-        const src = [...pendings].map((p) => {
-          return parseTag(conf, p)
-        }).filter(({ language: l, message: m }) => {
-          return l === from && !existTranslation(conf, messages, to, m)
-        })?.map(({ message }) => {
-          return message
-        })
-
-        if (!(src && src.length)) { continue }
-
-        const t = await translate(conf)(src, from, to)
-
-        hasTranslate = true
-
-        flatten([t]).forEach((item, i) => {
-          if (!messages[to]?.[conf.prefix]) { messages[to] = { [conf.prefix]: {} } }
-          messages[to][conf.prefix][src[i]] = item
-
-          setExists(exists, src[i], to)
-        })
-
-        await sleep(1000 / conf.qps)
-      }
-
-      if (hasTranslate) { await writeUn19nJSON(conf, messages) }
+      if (!s.hasChanged()) { return }
 
       return {
         code: s.toString(),
         map: s.generateMap()
       }
+    },
+    async buildStart () {
+      await ctx.init()
     }
   }
 })
-
-export default un19n
