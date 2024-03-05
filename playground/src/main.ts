@@ -4,7 +4,12 @@ import App from './App.vue'
 import __un19n from './locales/__un19n.json'
 
 const i18n = createI18n({
-  messages: __un19n
+  legacy: false,
+  locale: 'de',
+  messages: { ...__un19n }
 })
 
-createApp(App).use(i18n).mount('#app')
+const app = createApp(App)
+
+app.use(i18n)
+app.mount('#app')
