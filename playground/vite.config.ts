@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import un19n from '../src/_unplugin'
+import un19n from '..'
 
 import 'dotenv/config'
 

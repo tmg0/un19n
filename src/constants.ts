@@ -14,7 +14,7 @@ export const DEFAULT_UN19N_OPTIONS: Un19nOptions = {
   platform: undefined,
   from: 'auto',
   to: [],
-  output: 'locale/__un19n.json',
+  output: 'src/locales/__un19n.json',
   prefix: '__un19n',
   qps: 100,
   baidu: undefined

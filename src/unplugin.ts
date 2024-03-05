@@ -2,7 +2,7 @@ import { createUnplugin } from 'unplugin'
 import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
-import type { Un19nOptions } from './types'
+import type { Platform, Un19nOptions } from './types'
 import { createUn19n } from './context'
 
 export interface Un19nPluginOptions<T extends Platform> extends Un19nOptions<T> {

@@ -3,10 +3,11 @@
   "version": "0.1.1",
   "description": "Quick i18n translation generator",
   "main": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "vitest dev",
     "build": "tsup",
-    "play": "pnpm -C --filter @un19n/playground dev",
+    "play": "cd playground && pnpm dev",
     "build:play": "pnpm -C --filter @un19n/playground build",
     "test": "vitest"
   },
@@ -21,7 +22,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "default": "./dist/index.mjs"
     }
   },
   "author": "zekun.jin",
