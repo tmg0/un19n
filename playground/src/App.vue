@@ -9,9 +9,12 @@ const pen = computed(() => t('__un19n.pen'))
 
 <template>
   <div>
-    <h1>{{ t('__un19n.en:apple') }}</h1>
-    <h1>{{ t('__un19n.pineapple') }}</h1>
-    <h1>{{ pen }}</h1>
+    <h1>APPA</h1>
+    <h2>{{ t('__un19n.en:I_have_a_pen') }}</h2>
+    <h2>{{ t('__un19n.en:I_have_an_apple') }}</h2>
+    <h2>{{ t('__un19n.en:apple') }}</h2>
+    <h2>{{ t('__un19n.pineapple') }}</h2>
+    <h2>{{ pen }}</h2>
   </div>
 </template>
 
@@ -20,8 +23,8 @@ const pen = computed(() => t('__un19n.pen'))
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
-  margin-top: 60px;
+  padding: 60px;
 }
 </style>
